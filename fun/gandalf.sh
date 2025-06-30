@@ -14,11 +14,9 @@ while [ 1 ]; do
     read -rsn1 testinput
     if [ "$testinput" = w ]; then
         printf '\033[H' # set cursor position
-#        printf '\033[2J' # clear screen
         cat $g1
     elif [ "$testinput" = s ]; then
         printf '\033[H' # set cursor position
-#        printf '\033[2J' # clear screen
         cat $g2
     fi
 done
