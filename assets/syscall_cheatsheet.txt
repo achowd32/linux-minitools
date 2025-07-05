@@ -1,0 +1,95 @@
+===============================
+  LINUX SYSTEM CALL CHEATSHEET
+  For C Programming (User Space)
+===============================
+
+NOTE: These are *kernel-level* functions accessed via C library wrappers like glibc. They interact directly with the OS to perform tasks like file handling, process control, memory management, etc.
+
+--------------------------------------------------------
+  1. FILE AND DIRECTORY OPERATIONS
+--------------------------------------------------------
+
+open()      - Open or create a file. Returns a file descriptor.
+close()     - Close an open file descriptor.
+read()      - Read bytes from an open file descriptor into memory.
+write()     - Write bytes from memory to an open file descriptor.
+lseek()     - Change the file offset (seek to a specific position).
+stat()      - Retrieve file metadata (permissions, size, timestamps).
+fstat()     - Like stat(), but uses an open file descriptor.
+mkdir()     - Create a new directory.
+unlink()    - Delete a file.
+rmdir()     - Remove a directory.
+
+--------------------------------------------------------
+  2. PROCESS AND PROGRAM MANAGEMENT
+--------------------------------------------------------
+
+fork()      - Create a new child process, identical to the parent.
+execve()    - Replace the current process image with a new program.
+wait()      - Block until any child process terminates.
+waitpid()   - Block until a specific child process terminates.
+exit()      - Terminate the current process.
+getpid()    - Get the process ID of the calling process.
+getppid()   - Get the parent process ID.
+kill()      - Send a signal to a process (used for termination, interrupts, etc.).
+
+--------------------------------------------------------
+  3. MEMORY MANAGEMENT
+--------------------------------------------------------
+
+mmap()        - Map files or devices into memory; also used for anonymous memory regions.
+munmap()      - Unmap a previously mapped memory region.
+brk(), sbrk() - Change the end of the data segment (legacy heap management; mmap is preferred for modern programs).
+
+--------------------------------------------------------
+  4. INTER-PROCESS COMMUNICATION (IPC)
+--------------------------------------------------------
+
+pipe()            - Create a unidirectional data channel for communication between processes.
+dup(), dup2()     - Duplicate an existing file descriptor (commonly used for I/O redirection).
+socket()          - Create a communication endpoint (network socket).
+bind()            - Assign a socket to a specific address/port.
+connect()         - Connect a socket to a remote address.
+accept()          - Accept an incoming connection on a socket.
+send(), recv()    - Send or receive data over a connected socket.
+shmget(), shmat() - Create or attach to a shared memory segment (SysV shared memory).
+
+--------------------------------------------------------
+  5. SIGNAL HANDLING
+--------------------------------------------------------
+
+signal()      - Simple signal handling setup (deprecated; use sigaction).
+sigaction()   - Install a signal handler with fine-grained control.
+sigprocmask() - Block or unblock signals (affects delivery timing).
+
+--------------------------------------------------------
+  6. FILE DESCRIPTOR CONTROL
+--------------------------------------------------------
+
+fcntl()     - Perform operations on file descriptors (e.g., change flags, set locks).
+ioctl()     - Perform device-specific input/output control operations (used for terminal control, input injection, etc.).
+
+--------------------------------------------------------
+  7. TIME AND TIMERS
+--------------------------------------------------------
+
+time()         - Get the current time in seconds since the Unix epoch (deprecated; use clock_gettime).
+gettimeofday() - Get the current time with microsecond precision.
+nanosleep()    - Sleep the process for a specified period with nanosecond precision.
+alarm()        - Schedule a SIGALRM signal after a set number of seconds.
+
+--------------------------------------------------------
+  8. USER AND GROUP MANAGEMENT
+--------------------------------------------------------
+
+getuid()    - Get the real user ID of the calling process.
+geteuid()   - Get the effective user ID (used for permission checks).
+getgid()    - Get the real group ID.
+setuid()    - Set the real and effective user ID (privilege changes).
+
+--------------------------------------------------------
+  QUICK NOTES:
+
+- System calls typically return 0 on success, -1 on error (with errno set).
+- Many higher-level C functions (fopen, fread, etc.) wrap these syscalls.
+- man 2 <syscall> provides detailed documentation for each.
